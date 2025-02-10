@@ -1,66 +1,165 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 Laravel Product Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple **Product Management System** built with **Laravel 11**, supporting **CRUD operations**, **variant management**, **category assignment**, **filtering**, **authentication**, and **caching**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Setup Instructions
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### **1️⃣ Clone the Repository**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```sh
+git clone https://github.com/yourusername/laravel-product-management.git
+cd laravel-product-management
+```
 
-## Learning Laravel
+## Install Dependencies
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```sh
+composer install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Configure .env File
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Copy .env.example to .env and update database credentials:
 
-## Laravel Sponsors
+```sh
+cp .env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Set up database connection in .env:
 
-### Premium Partners
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_db_name
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Generate App Key
 
-## Contributing
+```sh
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Run Database Migrations & Seeders
 
-## Code of Conduct
+```sh
+php artisan migrate --seed
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Start the Server
 
-## Security Vulnerabilities
+```sh
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+API is now available at:
+📌 http://127.0.0.1:8000/api/
 
-## License
+# 📖 API Documentation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🔹 Authentication
+
+| Method | Endpoint      | Description          |
+| ------ | ------------- | -------------------- |
+| `POST` | `/api/login`  | User login (Sanctum) |
+| `POST` | `/api/logout` | User logout          |
+
+---
+
+## 🔹 Product Management
+
+| Method   | Endpoint             | Description                        |
+| -------- | -------------------- | ---------------------------------- |
+| `GET`    | `/api/products`      | List products (supports filtering) |
+| `GET`    | `/api/products/{id}` | Get a specific product             |
+| `POST`   | `/api/products`      | Create a product with variants     |
+| `PUT`    | `/api/products/{id}` | Update a product & variants        |
+| `DELETE` | `/api/products/{id}` | Delete a product & variants        |
+
+---
+
+## 🔹 Filtering Products
+
+| Query Parameter | Example                       |
+| --------------- | ----------------------------- |
+| `min_price`     | `/api/products?min_price=50`  |
+| `max_price`     | `/api/products?max_price=500` |
+| `category_id`   | `/api/products?category_id=3` |
+| `in_stock`      | `/api/products?in_stock=1`    |
+
+## 🔹 Example Requests
+
+### Create a Product
+
+```http
+POST /api/products
+```
+
+```json
+{
+    "name": "Smartphone X",
+    "description": "Latest flagship model",
+    "price": 999.99,
+    "variants": [
+        {
+            "sku": "SMX-001",
+            "color": "Black",
+            "size": "128GB",
+            "price": 1099.99,
+            "stock": 50
+        }
+    ]
+}
+```
+
+### Update a Product
+
+```http
+PUT /api/products/1
+```
+
+```json
+{
+    "name": "Smartphone X Pro",
+    "price": 1099.99,
+    "variants": [
+        {
+            "id": 1,
+            "sku": "SMX-001",
+            "color": "Black",
+            "size": "128GB",
+            "price": 1199.99,
+            "stock": 40
+        }
+    ]
+}
+```
+
+### Delete a Product
+
+```http
+DELETE /api/products/1
+```
+
+## 🤔 Assumptions Made
+
+-   Variants are optional when creating a product.
+-   Price is stored in decimal format (10,2) for accuracy.
+-   Authentication is handled using Laravel Sanctum.
+-   Filtering is supported by price range, category, and stock availability.
+-   Soft deletes are not implemented, meaning deletion is permanent.
+
+## ⏳ Time Spent on the Task
+
+-   Project Setup & Migrations: ⏱️ 2 hours
+-   Model & Relationship Setup: ⏱️ 2 hours
+-   API Development: ⏱️ 4 hours
+-   Filtering & Caching Implementation: ⏱️ 2 hours
+-   Authentication Setup (Sanctum): ⏱️ 1 hour
+-   Testing & Debugging: ⏱️ 3 hours
+-   Documentation & Refinement: ⏱️ 1 hour
+-   Total Time Spent: ⏳ 15 hours
